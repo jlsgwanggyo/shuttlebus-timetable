@@ -90,6 +90,52 @@
   }
   .notice p{margin:4px 0;}
 
+  /* ---------- Stop search ---------- */
+  .search-wrap{padding:12px 20px 0;}
+  .search-box{
+    display:flex; align-items:center; gap:8px;
+    background:#fff; border:1.5px solid var(--lake); border-radius:12px;
+    padding:10px 12px;
+  }
+  .search-icon{width:17px; height:17px; fill:var(--lake); flex:0 0 auto;}
+  .search-box input{
+    flex:1; min-width:0; border:none; outline:none; background:transparent;
+    font-size:13.5px; color:var(--ink); font-family:inherit;
+  }
+  .search-box input::placeholder{color:var(--sub); font-size:12.5px;}
+  .search-clear{
+    display:none; border:none; background:#F1F0EA; border-radius:50%;
+    width:20px; height:20px; align-items:center; justify-content:center; cursor:pointer; flex:0 0 auto;
+  }
+  .search-clear svg{width:10px; height:10px; fill:var(--sub);}
+  .search-clear.show{display:flex;}
+
+  .search-results{
+    margin-top:6px; max-height:0; overflow:hidden;
+    border-radius:12px; background:#fff;
+    transition:max-height .18s ease;
+  }
+  .search-results.open{
+    max-height:320px; overflow-y:auto; border:1px solid var(--line);
+  }
+  .search-result-item{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px; border-bottom:1px solid var(--line);
+    cursor:pointer;
+  }
+  .search-result-item:last-child{border-bottom:none;}
+  .search-result-item:active, .search-result-item:hover{background:var(--lake-tint);}
+  .search-result-badge{
+    width:26px; height:26px; border-radius:8px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:12px; font-weight:800;
+  }
+  .search-result-text{min-width:0; flex:1;}
+  .search-result-name{font-size:13px; font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .search-result-route{font-size:11px; color:var(--sub); margin-top:1px;}
+  .search-result-chevron{width:14px; height:14px; fill:var(--sub); flex:0 0 auto;}
+  .search-empty{padding:16px 12px; text-align:center; font-size:12.5px; color:var(--sub);}
+
   /* ---------- Tabs ---------- */
   nav.tabs{
     display:flex; gap:8px; overflow-x:auto;
@@ -198,6 +244,7 @@
   tbody td.stop-name{
     text-align:left; padding-left:14px; font-size:13.5px; font-weight:600; color:var(--ink);
     background:var(--card);
+    display:flex; align-items:center; gap:0;
   }
   tbody td.stop-name .idx{
     display:inline-flex; align-items:center; justify-content:center;
@@ -205,6 +252,14 @@
     background:var(--tint,var(--lake-tint)); color:var(--dot,var(--lake));
     font-size:11px; font-weight:800; margin-right:7px; flex:0 0 auto;
   }
+  .stop-dual{display:flex; flex-direction:column; gap:2px; min-width:0;}
+  .stop-dual-row{display:flex; align-items:baseline; gap:5px; min-width:0;}
+  .stop-dual-row span.stop-dual-text{overflow:hidden; text-overflow:ellipsis;}
+  .stop-dual-tag{
+    flex:0 0 auto; font-size:9px; font-weight:800; padding:1px 5px; border-radius:4px;
+  }
+  .stop-dual-tag.pickup{background:var(--tint,var(--lake-tint)); color:var(--dot,var(--lake));}
+  .stop-dual-tag.dropoff{background:#FBEEDB; color:#9A6A1E;}
   tbody tr:nth-child(even) td{background:#FBFBF9;}
   tbody tr.arrival td{
     background:var(--tint,var(--lake-tint)) !important;
@@ -212,6 +267,8 @@
     border-top:2px solid var(--dot,var(--lake));
   }
   tbody tr.arrival td.stop-name{color:var(--dot,var(--lake));}
+
+  tbody tr.stop-highlight td{background:#FFE9A8 !important; transition:background .35s ease;}
 
   /* 정차 지역 열을 화면에 고정(엑셀 틀 고정과 동일한 개념) — 나머지 시간 열만 옆으로 스크롤됩니다 */
   th.stop-col, td.stop-name{
@@ -222,18 +279,20 @@
   thead tr.sub th.stop-col{ z-index:3; }
 
   @media (max-width:700px){
-    table{min-width:0;}
+    table{min-width:430px;}
     th.stop-col, tbody td.stop-name{
-      width:96px; min-width:96px; max-width:96px;
+      width:120px; min-width:120px; max-width:120px;
     }
     tbody td.stop-name{
-      white-space:normal; line-height:1.28; font-size:12px; padding:8px 6px 8px 10px;
+      white-space:normal; line-height:1.3; font-size:11.5px; padding:8px 6px 8px 10px;
     }
-    tbody td.stop-name .idx{width:17px; height:17px; font-size:9.5px; margin-right:5px;}
-    thead .sub th.stop-col{padding-left:10px; font-size:11px;}
-    thead .sub th{font-size:11px; padding:6px 3px;}
-    thead .sub th .ct{font-size:9.5px;}
-    thead .grp th{font-size:10.5px; padding:6px 3px;}
+    tbody td.stop-name .idx{width:18px; height:18px; font-size:10px; margin-right:5px;}
+    .stop-dual-tag{font-size:8.5px; padding:0.5px 4px;}
+    .stop-dual{gap:1px;}
+    thead .sub th.stop-col{padding-left:10px; font-size:11.5px;}
+    thead .sub th{font-size:11.5px; padding:6px 3px;}
+    thead .sub th .ct{font-size:9.8px;}
+    thead .grp th{font-size:11px; padding:6px 3px;}
     tbody td{font-size:13px; padding:8px 3px;}
   }
 
@@ -284,6 +343,17 @@
     <div class="notice" id="noticeBox"></div>
   </header>
 
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+      <input type="text" id="stopSearchInput" placeholder="우리 아이 정류소를 모르시면 검색해보세요!" autocomplete="off">
+      <button class="search-clear" id="searchClearBtn" aria-label="검색어 지우기">
+        <svg viewBox="0 0 24 24"><path d="M18.3 5.71L12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.3 1.41 1.41 6.3-6.3 6.3 6.3 1.41-1.41-6.3-6.3 6.3-6.3z"/></svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
   <nav class="tabs" id="tabs"></nav>
 
   <main id="panels"></main>
@@ -292,7 +362,7 @@
 </div>
 
 <script>
-let DATA = [{"bus_no":"1","driver_name":"심규덕 기사님","driver_phone":"010-9002-2586","route_note":"센트럴타운 방면","extra_note":"","mwf_teacher_label":"박정희","mwf_teacher_phone":"010-7185-3852","tt_teacher_label":"정경숙","tt_teacher_phone":"010-4901-6950","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"e편한세상 정문(맘스존)","times":["14:20","15:55","17:36","14:56","17:31"]},{"name":"e편한세상 후문","times":["14:25","15:56","17:42","15:01","17:36"]},{"name":"써밋플레이스 102동 앞(중앙역 더퍼스트)","times":["14:26","16:03","17:42","15:02","17:37"]},{"name":"자연앤자이 2단지 후문 (총각네 과일)","times":["14:31","16:12","17:50","15:07","17:42"]},{"name":"자연앤자이 2단지 정문 (하원 에듀문)","times":["14:32","16:13","17:51","15:08","17:43"]}],"arrival":["14:40","16:20","17:58","15:15","17:55"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"2","driver_name":"박윤화 기사님","driver_phone":"010-4942-2344","route_note":"법조타운 방면","extra_note":"","mwf_teacher_label":"김복자","mwf_teacher_phone":"010-6348-2207","tt_teacher_label":"반명자","tt_teacher_phone":"010-2480-7286","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"광교마을 40단지 정문","times":["14:15","15:55","17:30","14:48","17:23"]},{"name":"광교상록 자이 후문","times":["14:20","16:00","17:35","14:52","17:28"]},{"name":"호반써밋 후문 (이의초, 상록아파트)CU","times":["14:23","16:03","17:38","14:55","17:31"]},{"name":"이의중학교 (하원 호반써밋 정문 앞)","times":["14:26","16:06","17:41","14:59","17:34"]},{"name":"힐스테이트 광교 정문","times":["14:29","16:09","17:43","15:02","17:37"]},{"name":"광교62단지 정문(힐스레이크)","times":["14:31","16:11","17:45","15:05","17:39"]}],"arrival":["14:40","16:20","17:58","15:12","17:55"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"3","driver_name":"박복수 기사님","driver_phone":"010-5389-7720","route_note":"웰빙타운 방면","extra_note":"3호차 노선은 등하원 운행순서가 동일하게 운영됩니다.","mwf_teacher_label":"최민숙","mwf_teacher_phone":"010-7322-3164","tt_teacher_label":"박은라","tt_teacher_phone":"010-5506-9993","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"해모로 아파트 상가 앞","times":["14:06","15:46","17:24","14:41","17:21"]},{"name":"호반 가든하임","times":["14:08","15:48","17:26","14:43","17:23"]},{"name":"광교 e편한세상 2차 정문","times":["14:10","15:50","17:28","14:45","17:25"]},{"name":"e편한 테라스 웨스트힐","times":["14:11","15:51","17:29","14:46","17:26"]},{"name":"웰빙타운 호반베르디움 정문","times":["14:12","15:52","17:30","14:47","17:27"]},{"name":"로제비앙","times":["14:14","15:54","17:32","14:49","17:29"]},{"name":"광교파크 자이 더 테라스","times":["14:16","15:56","17:34","14:51","17:31"]},{"name":"광교초(문구야놀자)","times":["14:18","15:58","17:36","14:53","17:33"]},{"name":"광교초 사거리 CU편의점 (호반 트라엘)","times":["14:20","16:00","17:38","14:55","17:35"]}],"arrival":["14:40","16:20","17:58","15:15","17:50"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"5","driver_name":"배상욱 기사님","driver_phone":"010-7791-2712","route_note":"호수공원 방면","extra_note":"5호차 버스는 45인승 대형버스로 운행됩니다.","mwf_teacher_label":"한종희","mwf_teacher_phone":"010-2223-9614","tt_teacher_label":"박정희","tt_teacher_phone":"010-7185-3852","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"매원초 통학로 아래 (하원 더샵 후문)","times":["14:19","16:05","17:41","14:58","17:36"]},{"name":"아이파크 버스정류장 (하원 더샵레이크)","times":["14:20","16:06","17:42","14:59","17:37"]},{"name":"에일린의 뜰 버스정류장","times":["14:24","16:08","17:46","15:03","17:41"]},{"name":"호수초등학교","times":["14:26","16:10","17:48","15:05","17:43"]},{"name":"중흥S 105동 (Gate3) 맞은편 버스정류장","times":["14:27","16:11","17:49","15:06","17:44"]},{"name":"포레나광교 버스정류장 (하원 중흥 Gate2)","times":["14:30","16:14","17:52","15:09","17:47"]}],"arrival":["14:40","16:20","17:58","15:15","17:55"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"6","driver_name":"곽태복 기사님","driver_phone":"010-2108-9036","route_note":"상현역 방면","extra_note":"","mwf_teacher_label":"손경희","mwf_teacher_phone":"010-8592-5549","tt_teacher_label":"이현자","tt_teacher_phone":"010-9058-5420","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"광교 상록자이 정문","times":["14:17","15:50","17:28","14:48","17:23"]},{"name":"광교마을 45단지","times":["14:21","15:54","17:32","14:51","17:27"]},{"name":"경남 아너스빌","times":["14:22","15:55","17:33","14:52","17:28"]},{"name":"삼성래미안 후문 , 오드카운티","times":["14:29","16:04","17:40","14:59","17:35"]},{"name":"산의초 (하원 60단지)","times":["14:31","16:07","17:45","15:02","17:40"]}],"arrival":["14:40","16:20","17:58","15:15","17:53"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"8","driver_name":"신수영 기사님","driver_phone":"010-8237-5252","route_note":"흥덕/풍경채 방면","extra_note":"","mwf_teacher_label":"김미란","mwf_teacher_phone":"010-4156-0413","tt_teacher_label":"강원도","tt_teacher_phone":"010-4754-7033","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"풍경채 Gate 1","times":["14:09","15:49","17:27","14:43","17:24"]},{"name":"10단지 동원로얄듀크 상가출입구 앞","times":["14:16","15:56","17:34","14:52","17:31"]},{"name":"8단지 흥덕아델리움 (하원 9단지)","times":["14:18","15:58","17:36","14:53","17:33"]},{"name":"7단지 흥덕파출소","times":["14:19","15:59","17:38","14:54","17:34"]},{"name":"5단지 후문 횡단보도 건너 (하원 5단지 후문)","times":["14:22","16:02","17:40","14:57","17:37"]},{"name":"23단지 한양수자인 (하원 22단지)","times":["14:22","16:02","17:40","14:57","17:37"]},{"name":"중앙기독초 (하원 가람마을 호반베르디움)","times":["14:30","16:10","17:48","15:05","17:45"]}],"arrival":["14:40","16:20","17:58","15:15","17:50"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]}];
+let DATA = [{"bus_no":"1","driver_name":"심규덕 기사님","driver_phone":"010-9002-2586","route_note":"센트럴타운 방면","extra_note":"","mwf_teacher_label":"박정희","mwf_teacher_phone":"010-7185-3852","tt_teacher_label":"정경숙","tt_teacher_phone":"010-4901-6950","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"e편한세상 정문(맘스존)","times":["14:20","15:55","17:36","14:56","17:31"],"tags":"e편한, e편한세상, 이편한, 이편한세상, 정문, 61단지","dropoff_name":""},{"name":"e편한세상 후문","times":["14:25","15:56","17:42","15:01","17:36"],"tags":"e편한, e편한세상, 이편한, 이편한세상, 후문, 61단지","dropoff_name":""},{"name":"써밋플레이스 102동 앞(궁잔기지떡)","times":["14:26","16:03","17:42","15:02","17:37"],"tags":"써밋플레이스, 아브뉴프랑, 광교중앙역, 힐스테이트, 퍼스트","dropoff_name":"중앙역퍼스트 입구"},{"name":"자연앤자이 2단지 후문(총각네 과일)","times":["14:31","16:12","17:50","15:07","17:42"],"tags":"자연앤, 자이, 자연앤자이, 자연앤힐스테이트, 52단지, 2단지, 총각네","dropoff_name":"후문 맞은편 광교 지구대"},{"name":"자연앤자이 2단지 정문","times":["14:32","16:13","17:51","15:08","17:43"],"tags":"자연앤, 자이, 자연앤자이, 자연앤힐스테이트, 52단지, 2단지, 에듀문","dropoff_name":"자연앤 힐스테이트 에듀문"}],"arrival":["14:40","16:20","17:58","15:15","17:55"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"2","driver_name":"박윤화 기사님","driver_phone":"010-4942-2344","route_note":"법조타운 방면","extra_note":"","mwf_teacher_label":"김복자","mwf_teacher_phone":"010-6348-2207","tt_teacher_label":"반명자","tt_teacher_phone":"010-2480-7286","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"광교마을 40단지 정문","times":["14:15","15:55","17:30","14:48","17:23"],"tags":"더포레스트, 40단지, 광교더포레스트","dropoff_name":""},{"name":"광교상록 자이 후문","times":["14:20","16:00","17:35","14:52","17:28"],"tags":"상록, 상록자이, 더클래스, 42단지, 휴먼시아, 41단지","dropoff_name":"휴먼시아 41단지 후문"},{"name":"상록아파트 CU 편의점 (이의초)","times":["14:23","16:03","17:38","14:55","17:31"],"tags":"상록, 31단지, 이의초, 광교상록, 호반써밋","dropoff_name":"호반써밋 후문"},{"name":"이의중학교","times":["14:26","16:06","17:41","14:59","17:34"],"tags":"이의중, 호반써밋, 써밋","dropoff_name":"호반써밋 정문"},{"name":"힐스테이트 광교 정문","times":["14:29","16:09","17:43","15:02","17:37"],"tags":"","dropoff_name":""},{"name":"힐스테이트 레이크 정문","times":["14:31","16:11","17:45","15:05","17:39"],"tags":"힐스테이트, 62단지, 더리브","dropoff_name":"62단지 광교더리브 정문"}],"arrival":["14:40","16:20","17:58","15:12","17:55"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"3","driver_name":"박복수 기사님","driver_phone":"010-5389-7720","route_note":"웰빙타운 방면","extra_note":"3호차 노선은 등하원 운행순서가 동일하게 운영됩니다.","mwf_teacher_label":"최민숙","mwf_teacher_phone":"010-7322-3164","tt_teacher_label":"박은라","tt_teacher_phone":"010-5506-9993","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"해모로 아파트 상가 앞","times":["14:06","15:46","17:24","14:41","17:21"],"tags":"웰빙타운","dropoff_name":""},{"name":"호반 가든하임","times":["14:08","15:48","17:26","14:43","17:23"],"tags":"웰빙타운","dropoff_name":""},{"name":"광교 e편한세상 2차 정문","times":["14:10","15:50","17:28","14:45","17:25"],"tags":"이편한, 이편한세상, 웰빙타운","dropoff_name":""},{"name":"e편한 테라스 웨스트힐","times":["14:11","15:51","17:29","14:46","17:26"],"tags":"웰빙타운","dropoff_name":""},{"name":"웰빙타운 호반베르디움 정문","times":["14:12","15:52","17:30","14:47","17:27"],"tags":"웰빙타운","dropoff_name":""},{"name":"로제비앙","times":["14:14","15:54","17:32","14:49","17:29"],"tags":"웰빙타운, 대광","dropoff_name":""},{"name":"광교파크 자이 더 테라스","times":["14:16","15:56","17:34","14:51","17:31"],"tags":"웰빙타운","dropoff_name":""},{"name":"광교초(문구야놀자)","times":["14:18","15:58","17:36","14:53","17:33"],"tags":"","dropoff_name":""},{"name":"광교초 사거리 CU앞 버스정류장(호반트라엘)","times":["14:20","16:00","17:38","14:55","17:35"],"tags":"웰빙타운, 광교초, 트라엘","dropoff_name":""}],"arrival":["14:40","16:20","17:58","15:15","17:50"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"5","driver_name":"배상욱 기사님","driver_phone":"010-7791-2712","route_note":"호수공원 방면","extra_note":"5호차 버스는 45인승 대형버스로 운행됩니다.","mwf_teacher_label":"한종희","mwf_teacher_phone":"010-2223-9614","tt_teacher_label":"박정희","tt_teacher_phone":"010-7185-3852","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"매원초 통학로 아래 (호수중 정문)","times":["14:19","16:05","17:41","14:58","17:36"],"tags":"호수중, 매원초, 더샵, 더샾, 광교더샵, 광교더샾","dropoff_name":"더샵 후문(202동 앞)"},{"name":"아이파크 정문 버스정류장","times":["14:20","16:06","17:42","14:59","17:37"],"tags":"아이파크, 레이크시티","dropoff_name":"광교레이크시티 입구"},{"name":"에일린의 뜰 맞은편 버스정류장","times":["14:24","16:08","17:46","15:03","17:41"],"tags":"","dropoff_name":"에일린의 뜰"},{"name":"호수초 정문 횡단보도 맞은","times":["14:26","16:10","17:48","15:05","17:43"],"tags":"","dropoff_name":"호수초 정문"},{"name":"중흥 GATE3 (105동) 맞은편 버스정류장","times":["14:27","16:11","17:49","15:06","17:44"],"tags":"중흥","dropoff_name":"중흥 GATE3 (105동)  버스정류장"},{"name":"포레나광교 버스정류장","times":["14:30","16:14","17:52","15:09","17:47"],"tags":"포레나, 중흥, 갤러리아","dropoff_name":"중흥 GATE2 (102동) 앞"}],"arrival":["14:40","16:20","17:58","15:15","17:55"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"6","driver_name":"곽태복 기사님","driver_phone":"010-2108-9036","route_note":"상현역 방면","extra_note":"","mwf_teacher_label":"손경희","mwf_teacher_phone":"010-8592-5549","tt_teacher_label":"이현자","tt_teacher_phone":"010-9058-5420","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"광교 상록자이 정문 (새빛초 맞은편)","times":["14:17","15:50","17:28","14:48","17:23"],"tags":"자이, 상록, 새빛초","dropoff_name":""},{"name":"광교 더힐 (45단지)","times":["14:21","15:54","17:32","14:51","17:27"],"tags":"광교마","dropoff_name":""},{"name":"경남 아너스빌","times":["14:22","15:55","17:33","14:52","17:28"],"tags":"","dropoff_name":""},{"name":"래미안, 오드카운티 후문","times":["14:29","16:04","17:40","14:59","17:35"],"tags":"래미안광교","dropoff_name":""},{"name":"산의초 (센트럴뷰 정문 맞은편)","times":["14:31","16:07","17:45","15:02","17:40"],"tags":"60단지, 센트럴, 산의","dropoff_name":"센트럴뷰(60단지) 후문"}],"arrival":["14:40","16:20","17:58","15:15","17:53"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]},{"bus_no":"8","driver_name":"신수영 기사님","driver_phone":"010-8237-5252","route_note":"흥덕/풍경채 방면","extra_note":"","mwf_teacher_label":"김미란","mwf_teacher_phone":"010-4156-0413","tt_teacher_label":"강원도","tt_teacher_phone":"010-4754-7033","period_labels":["1교시","2교시","3교시","5교시","6교시"],"stops":[{"name":"풍경채 Gate 1","times":["14:09","15:49","17:27","14:43","17:24"],"tags":"풍경채, 흥덕","dropoff_name":""},{"name":"동원로얄듀크(10단지) CU 맞은편","times":["14:16","15:56","17:34","14:52","17:31"],"tags":"흥덕, 샘말초, 동원, 10단지","dropoff_name":"10단지 상가 맞은편(샘말초)"},{"name":"흥덕 아델리움 (8단지) 정문","times":["14:18","15:58","17:36","14:53","17:33"],"tags":"흥덕, 광교호수아델리움, 우미린, 레이크포레","dropoff_name":"우미린 레이크포레 (9단지) 정문"},{"name":"7단지 흥덕파출소 앞 버스정류","times":["14:19","15:59","17:38","14:54","17:34"],"tags":"흥덕, 힐스테이트. 7단지, 6단지","dropoff_name":"영덕1동 행정복지센터 버스정류장"},{"name":"흥덕 5단지 후문 건너편","times":["14:22","16:02","17:40","14:57","17:37"],"tags":"흥덕, 5단지, 호반써밋레이크파크, 흥덕5단지","dropoff_name":"흥덕 5단지 후문 앞"},{"name":"한양수자인 (23단지)","times":["14:22","16:02","17:40","14:57","17:37"],"tags":"흥덕","dropoff_name":"모아엘가레이크뷰 (22단지)"},{"name":"중앙기독초 (이마트24 버스정류장)","times":["14:30","16:10","17:48","15:05","17:45"],"tags":"중앙기독초, 중기초, 가람마을, 호반베르디움","dropoff_name":"가람마을 호반베르디움 정문"}],"arrival":["14:40","16:20","17:58","15:15","17:50"],"class_time":["14:45~16:25","16:25~18:05","18:05~19:45","15:20~17:50","18:00~20:30"]}];
 let NOTICE_LINES = ["▶ 셔틀버스 정차지역에 승차 3분전 나와서 차량을 기다릴 수 있도록 해주세요.","▶ 학생이 나와있지 않을 시, 차량은 정시에 출발합니다!","▶ 정확한 탑승 시간과 위치는 사전에 셔틀기사님 또는 담당 선생님과 통화하여 확인해 주세요.","▶ 결석 또는 당일 셔틀미이용 시 옐로우버스 앱의 '안타요' 기능을 이용해 주세요."];
 let META = {"title":"셔틀버스 시간표","baseDate":"2026년 7월 기준 / 노선 및 탑승시간은 학기별로 변경될 수 있습니다"};
 
@@ -365,10 +435,14 @@ function buildPanel(bus, idx){
 
   let rows = "";
   bus.stops.forEach((s, si) => {
-    let tds = `<td class="stop-name"><span class="idx">${si+1}</span>${escapeHtml(s.name)}</td>`;
+    const hasDropoff = s.dropoff_name && s.dropoff_name.trim() && s.dropoff_name.trim() !== s.name.trim();
+    const nameHtml = hasDropoff
+      ? `<div class="stop-dual"><div class="stop-dual-row"><span class="stop-dual-tag pickup">등원</span><span class="stop-dual-text">${escapeHtml(s.name)}</span></div><div class="stop-dual-row"><span class="stop-dual-tag dropoff">하원</span><span class="stop-dual-text">${escapeHtml(s.dropoff_name)}</span></div></div>`
+      : escapeHtml(s.name);
+    let tds = `<td class="stop-name"><span class="idx">${si+1}</span>${nameHtml}</td>`;
     g.mwf.forEach(ci => { tds += `<td>${s.times[ci]}</td>`; });
     g.tt.forEach((ci,k) => { tds += `<td${k===0?' class="col-divider"':''}>${s.times[ci]}</td>`; });
-    rows += `<tr>${tds}</tr>`;
+    rows += `<tr id="stop-${idx}-${si}">${tds}</tr>`;
   });
 
   let arrTds = `<td class="stop-name">학원 도착</td>`;
@@ -438,7 +512,97 @@ function renderAll(){
   renderPanels();
 }
 
+/* ---------------- Stop search ---------------- */
+function buildSearchIndex(){
+  const idx = [];
+  DATA.forEach((bus, busIdx) => {
+    const c = BUS_COLORS[bus.bus_no];
+    bus.stops.forEach((s, stopIdx) => {
+      const hay = (s.name + " " + (s.dropoff_name||"") + " " + (s.tags||"")).toLowerCase();
+      idx.push({busIdx, stopIdx, busNo:bus.bus_no, routeNote:bus.route_note, stopName:s.name, dot:c.dot, hay});
+    });
+  });
+  return idx;
+}
+
+function matchStop(entry, tokens){
+  return tokens.every(t => entry.hay.includes(t));
+}
+
+function renderSearchResults(query){
+  const box = document.getElementById("searchResults");
+  const clearBtn = document.getElementById("searchClearBtn");
+  const q = query.trim().toLowerCase();
+
+  clearBtn.classList.toggle("show", q.length > 0);
+
+  if(!q){
+    box.classList.remove("open");
+    box.innerHTML = "";
+    return;
+  }
+
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const results = SEARCH_INDEX.filter(e => matchStop(e, tokens)).slice(0, 20);
+
+  if(results.length === 0){
+    box.innerHTML = `<div class="search-empty">일치하는 정류장이 없어요. 다른 이름으로 검색해 보세요.</div>`;
+  } else {
+    box.innerHTML = results.map(r => `
+      <div class="search-result-item" data-bus="${r.busIdx}" data-stop="${r.stopIdx}">
+        <div class="search-result-badge" style="background:${r.dot}">${r.busNo}</div>
+        <div class="search-result-text">
+          <div class="search-result-name">${escapeHtml(r.stopName)}</div>
+          <div class="search-result-route">${r.busNo}호차 · ${escapeHtml(r.routeNote)}</div>
+        </div>
+        <svg class="search-result-chevron" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+      </div>`).join("");
+  }
+  box.classList.add("open");
+}
+
+function jumpToStop(busIdx, stopIdx){
+  selectTab(busIdx);
+  const input = document.getElementById("stopSearchInput");
+  input.value = "";
+  document.getElementById("searchClearBtn").classList.remove("show");
+  document.getElementById("searchResults").classList.remove("open");
+  document.getElementById("searchResults").innerHTML = "";
+  setTimeout(() => {
+    const row = document.getElementById(`stop-${busIdx}-${stopIdx}`);
+    if(row){
+      row.scrollIntoView({behavior:"smooth", block:"center"});
+      row.classList.add("stop-highlight");
+      setTimeout(() => row.classList.remove("stop-highlight"), 2200);
+    }
+  }, 60);
+}
+
+function initSearch(){
+  SEARCH_INDEX = buildSearchIndex();
+  const input = document.getElementById("stopSearchInput");
+  const clearBtn = document.getElementById("searchClearBtn");
+  const box = document.getElementById("searchResults");
+
+  input.addEventListener("input", () => renderSearchResults(input.value));
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    clearBtn.classList.remove("show");
+    box.classList.remove("open");
+    box.innerHTML = "";
+    input.focus();
+  });
+  box.addEventListener("click", (e) => {
+    const item = e.target.closest(".search-result-item");
+    if(!item) return;
+    jumpToStop(Number(item.dataset.bus), Number(item.dataset.stop));
+  });
+}
+
+let SEARCH_INDEX = [];
+
 renderAll();
+initSearch();
 </script>
 </body>
 </html>
